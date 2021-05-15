@@ -1065,8 +1065,10 @@ class Recipe:
     def _add_project_variable_mappings(self, variable):
         mappings = get_variable_mappings(variable["project"],
                                          variable["dataset"])
-        mapping = mappings[variable["mip"]][variable["short_name"]]
-        _augment(variable, mapping)
+        if variable["mip"] in mappings :
+            if variable["short_name"] in mappings[variable["mip"]] :
+                mapping = mappings[variable["mip"]][variable["short_name"]]
+                _augment(variable, mapping)
 
     def _initialize_variables(self, raw_variable, raw_datasets):
         """Define variables for all datasets."""
