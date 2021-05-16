@@ -86,9 +86,9 @@ class Fix:
         """
         return cubes
 
-    def get_cube_from_list(self, cubes, short_name=None):
+    def get_cube_from_list(self, cubes, short_name=None, mapping_key=None):
         """
-        Get a cube from the list with a given short name.
+        Get a cube from the list with a given short name, applying name mapping.
 
         Parameters
         ----------
@@ -96,6 +96,8 @@ class Fix:
             List of cubes to search
         short_name : str
             Cube's variable short name. If None, short name is the class name
+        mapping_key : str 
+            Key in mapping dict for finding replacement short_name. 
 
         Raises
         ------
@@ -109,10 +111,12 @@ class Fix:
         """
         if short_name is None:
             short_name = self.vardef.short_name
+        short_name=self.var_mapping.get(mapping_key,short_name)
         for cube in cubes:
             if cube.var_name == short_name:
                 return cube
         raise Exception('Cube for variable "{}" not found'.format(short_name))
+
 
     def fix_data(self, cube):
         """
